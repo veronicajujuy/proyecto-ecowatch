@@ -1,6 +1,6 @@
 import csv
 from datetime import datetime
-from domain.models import Log
+from domain.models import LogRaw
 from config import EXPECTED_FIELDS
 
 
@@ -27,7 +27,7 @@ def cargar_logs_csv(ruta):
                 mensaje = fila["mensaje"]
 
                 # crear instancia de log (no agregar sala)
-                log = Log(
+                log = LogRaw(
                     timestamp=timestamp,
                     estado=estado,
                     temperatura=temperatura,

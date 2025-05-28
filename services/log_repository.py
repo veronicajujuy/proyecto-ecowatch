@@ -1,5 +1,5 @@
 from sqlalchemy.orm import Session
-from domain.models import Sala, Log
+from domain.models import Sala, LogRaw
 from infraestructure.database import SessionLocal
 from sqlalchemy.exc import IntegrityError
 
@@ -8,7 +8,6 @@ def guardar_logs(lista_logs):
     session: Session = SessionLocal()
 
     guardados = 0
-    duplicados = 0
 
     try:
         for sala_nombre, log in lista_logs:
@@ -19,23 +18,22 @@ def guardar_logs(lista_logs):
                 session.add(sala)
                 session.flush()
 
-            log.sala = sala
+            log_raw = LogRaw(
+                timestamp=log.timestamp,
+                estado=log.estado,
+                temperatura=log.temperatura,
+                humedad=log.humedad,
+                co2=log.co2,
+                mensaje=log.mensaje,
+                sala=sala,
+            )
 
-            try:
-                with session.begin_nested():
-                    session.add(log)
-                    session.flush()
+            session.add(log_raw)
 
-                    guardados += 1
-
-            except IntegrityError:
-                print(f"[SKIP] Duplicado: {sala.nombre} - {log.timestamp}")
-                duplicados += 1
-                continue
+            guardados += 1
 
         session.commit()
         print(f"Se guardaron {guardados} logs en la base de datos")
-        print(f"duplicados {duplicados} logs en la base de datos")
 
     except Exception as e:
         session.rollback()
