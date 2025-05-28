@@ -1,10 +1,14 @@
 from sqlalchemy.orm import Session
 from domain.models import Sala, Log
 from infraestructure.database import SessionLocal
+from sqlalchemy.exc import IntegrityError
 
 
 def guardar_logs(lista_logs):
     session: Session = SessionLocal()
+
+    guardados = 0
+    duplicados = 0
 
     try:
         for sala_nombre, log in lista_logs:
@@ -17,10 +21,21 @@ def guardar_logs(lista_logs):
 
             log.sala = sala
 
-            session.add(log)
+            try:
+                with session.begin_nested():
+                    session.add(log)
+                    session.flush()
+
+                    guardados += 1
+
+            except IntegrityError:
+                print(f"[SKIP] Duplicado: {sala.nombre} - {log.timestamp}")
+                duplicados += 1
+                continue
 
         session.commit()
-        print(f"Se guardaron {len(lista_logs)} logs en la base de datos")
+        print(f"Se guardaron {guardados} logs en la base de datos")
+        print(f"duplicados {duplicados} logs en la base de datos")
 
     except Exception as e:
         session.rollback()
