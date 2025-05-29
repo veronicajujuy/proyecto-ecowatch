@@ -26,9 +26,7 @@ class CacheTemporalLogs:
         timestamp: datetime = log.timestamp
         self.__depurador.registrar_timestamp(timestamp)
 
-        # print(f"Registramos timestamp: {timestamp}")
-        # print(f"Depurador: {self.__cache}")
-
+        # Agregar el log al diccionario
         if timestamp not in self.__cache:
             self.__cache[timestamp] = []
         self.__cache[timestamp].append(log)

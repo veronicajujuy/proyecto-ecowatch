@@ -26,7 +26,7 @@ def cargar_logs_csv(ruta):
                 co2 = int(fila["co2"])
                 mensaje = fila["mensaje"]
 
-                # crear instancia de log (no agregar sala)
+                # crear instancia de log
                 log = LogRaw(
                     timestamp=timestamp,
                     estado=estado,
