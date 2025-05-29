@@ -1,18 +1,13 @@
-# Entorno virtual
 entorno-hw/
 venv/
 .venv/
 
-# Archivos de entorno
 .env
 
-# Archivos compilados / temporales
 __pycache__/
 **/__pycache__/
 *.pyc
 
-# Archivos de bases de datos locales (si usás SQLite por ejemplo)
 *.db
 
-# Archivos de logs (si generás alguno)
 *.log
