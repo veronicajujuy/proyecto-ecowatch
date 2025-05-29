@@ -45,5 +45,5 @@ class LogRaw(Base):
 
 class Reporte(ABC):
     @abstractmethod
-    def generar(self, datos):
+    def generar(self, datos, key):
         pass

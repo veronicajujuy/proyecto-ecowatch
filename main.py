@@ -6,6 +6,13 @@ from datetime import datetime
 
 from cache.cache_temporal_logs import CacheTemporalLogs
 from cache.depurador_logs import DepuradorLogs
+import pandas as pd
+from reports.reports_strategy import PromedioPorMetricaReport, AlertasCriticasReports
+from reports.reports_factory import (
+    PromedioPorMetricasVarias,
+    AlertasCriticasVarias,
+    ReporteFactory,
+)
 
 
 def create_tables():
@@ -49,9 +56,32 @@ def main():
         )
         i += 1
 
-    print(f"Logs almacenados: {i}")
+    logs_dict = [log.dict() for log in cache.obtener_todos()]
 
-    cache.simular_tiempo(ahora=ahora, pasos=3)
+    df = pd.DataFrame(logs_dict)
+    print(df)
+
+    # print(f"Logs almacenados: {i}")
+
+    # cache.simular_tiempo(ahora=ahora, pasos=3)
+
+    # reportes:
+
+    # reporte de temperatura
+
+    # reporte = PromedioPorMetricasVarias().generar_reporte(
+    #     df, "temperatura", "humedad", "co2"
+    # )
+    # print(reporte)
+
+    # reporte = AlertasCriticasVarias().generar_reporte(df, "WARNING", "ERROR")
+    # print(reporte)
+
+    reporte = ReporteFactory.elegir_reporte("promedio")
+    print(reporte.generar_reporte(df, "temperatura", "humedad", "co2"))
+
+    reporte = ReporteFactory.elegir_reporte("alertas")
+    print(reporte.generar_reporte(df, "WARNING", "ERROR"))
 
 
 if __name__ == "__main__":

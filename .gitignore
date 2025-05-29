@@ -8,6 +8,7 @@ venv/
 
 # Archivos compilados / temporales
 __pycache__/
+**/__pycache__/
 *.pyc
 
 # Archivos de bases de datos locales (si usás SQLite por ejemplo)
