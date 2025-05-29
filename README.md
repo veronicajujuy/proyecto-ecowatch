@@ -58,24 +58,26 @@ pip install -r requirements.txt
 
 2. **Armar un .env**
     Crear en la raiz del proyecto un archivo .env con las siguientes variables:
+   ```bash
     DB_HOST=...
     DB_PORT=...
     DB_USER=...
     DB_PASSWORD=...
     DB_NAME=...
+   ```
 
-3. **Cargar logs desde CSV** (una sola vez si ya están cargados):
+4. **Cargar logs desde CSV** (una sola vez si ya están cargados):
    - Descomentar las líneas de carga en `main.py`.
    ```python
     # cargar_datos_desde_csv()  # Descomentar solo si hace falta cargar datos
    ```
 
-4. **Ejecutar el programa**:
+5. **Ejecutar el programa**:
    ```bash
    python main.py
    ```
 
-5. **Seleccionar tipo de reporte** desde el menú por consola.
+6. **Seleccionar tipo de reporte** desde el menú por consola.
 
 
 ## Patrones de Diseño Utilizados
